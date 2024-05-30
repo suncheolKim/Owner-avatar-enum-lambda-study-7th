@@ -1,10 +1,51 @@
 import sparta.SampleUsers;
 import sparta.User;
+import sparta.enumtype.DiscountEvent;
+import sparta.front.Cart;
+import sparta.front.Order;
+import sparta.front.ProductDetail;
+import sparta.service.Product;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        lambdaTest();
+        enumTest();
+    }
+
+    private static void enumTest() {
+        /**
+         *  *************************
+         *  ****      시나리오     ****
+         *  *************************
+         *
+         *  1. 2천만원짜리 상품이 있다.
+         *  2. 우리 쇼핑몰은 시즌별로 할인율이 각각 다르다.
+         *  3. 상품 상세페이지, 장바구니, 주문서까지 모든 화면에서 할인된 가격을 보여줘야 한다.
+         */
+
+        final int productPrice = 20_000_000;
+        final Product product = new Product("아이폰185 Super Ultra Pro Max", productPrice);
+
+        final ProductDetail productDetail = new ProductDetail();
+        final Cart cart = new Cart();
+        final Order order = new Order();
+
+        /* 여름 할인 */
+        DiscountEvent event = DiscountEvent.SUMMER;
+        productDetail.display(productPrice, event);
+        cart.display(productPrice, event);
+        order.display(productPrice, event);
+
+        /* 겨울 할인 */
+        event = DiscountEvent.WINTER;
+        productDetail.display(productPrice, event);
+        cart.display(productPrice, event);
+        order.display(productPrice, event);
+    }
+
+    private static void lambdaTest() {
         final SampleUsers users = new SampleUsers();
         users.init();
 
